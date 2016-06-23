@@ -1,14 +1,14 @@
 # *********************************************************#
-#   COSGC Presents                                                                                 #
+#   COSGC Presents                                         #
 #      __  __________    ________  _____   __    __        #
 #     / / / / ____/ /   /  _/ __ \/ ___/   | |  / /        #
 #    / /_/ / __/ / /    / // / / /\__ \    | | / /         #
 #   / __  / /___/ /____/ // /_/ /___/ /    | |/ /          #
 #  /_/ /_/_____/_____/___/\____//____/     |___/           #
 #                                                          #
-#                                                                                                          #
+#                                                          #
 #  Copyright (c) 2016 University of Colorado Boulder       #
-#  COSGC HASP Helios V Team                                                            #
+#  COSGC HASP Helios V Team                                #
 # *********************************************************#
 
 
@@ -37,6 +37,10 @@ RSET = 15
 az_steps = 12800 # = 360 deg * (4 steps / 1.8 deg) * (16 microsteps / step)
 ele_steps = 710 # = 80 deg * (1 step / 1.8 deg) * (16 microsteps / step)
 # HELIOS can look 'up' 60 degrees, and 'down' 20 degrees.
+
+# Input the offset between the two cameras here
+az_adj = 0
+el_adj = 0
 
 # Without Image Analysis, just use diode readings as degrees
 movingAvg = 8
@@ -205,8 +209,8 @@ def main(downlink, cmd_queue, delev, daz, inhib, camera, nightMode):
 
             if ret == 1:
                 # The sun is in the FOV, so move off of image analysis
-                degA = move_az
-                degE = move_ele
+                degA = move_az + az_adj
+                degE = move_ele + el_adj
                 anly = True
             else:
                 # The sun is not in the FOV, so move off of diode readings
